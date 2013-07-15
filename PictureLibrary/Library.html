@@ -1,0 +1,57 @@
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding"
+<!DOCTYPE html>
+<html>
+	<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js">
+	</script>
+	<script>
+	function callajax(){
+	
+		var result;	
+		
+		$.ajax({
+			url:"image.json",
+			method:"POST",
+			dataType:"json",
+		
+			success:function(result){				
+				
+				$.each(result.data, function(i,r){
+				
+				     var fullimg = '<img class="fullimg" style="display:none;" id="fullimg_'+i+'" height="500px" width="500px" src="'+r.thumb+'"></img>';
+				        $('#displaylarge').append(fullimg);
+					
+					var img = '<img class="img" src="'+r.thumb+'" fullimg="fullimg_'+i+'" height="200px" width="200px"></img>';
+					$('#display').append(img);
+				});
+						 
+				$(".img").bind("click", function(){
+					var imgFullPath = $(this).attr('fullimg');
+					var $img = $('#'+imgFullPath);
+					//$img.slideUp();
+					//$img.hide();
+					$('.fullimg').animate({width : 'hide'});
+					$img.animate({width: ['toggle', 'swing']});
+					//$('.fullimg').slideDown({width : 'hide'});
+					//$img.slideDown();
+				});
+		       			$('.fullImg:first').show();
+					 
+			},
+			
+			error: function(){
+				alert("ERROR :");
+			}
+		});
+	}
+	</script>
+	</head>
+
+	<body onload="callajax()">
+		
+		<div id="displaylarge" name="large" style="text-align:center"></div>
+		<div id="display" name="panel" style="text-align:center"></div>
+	</body>
+</html>
+
